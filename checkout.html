@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Niyantri Care - Checkout</title>
+  <meta name="description" content="PayPal Checkout Sandbox demo for Niyantri Care." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <div id="page" class="min-h-screen opacity-0 transition-opacity duration-700">
+    <!-- Nav -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+      <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="./index.html" class="flex items-center space-x-2">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Niyantri Care Logo" class="text-blue-600"><path d="M4 13c0-4 4-7 8-7s8 3 8 7v4H4v-4z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="white"/></svg>
+            <span class="font-semibold text-xl">Niyantri Care</span>
+          </a>
+          <div class="hidden md:flex space-x-6 text-sm">
+            <a href="./index.html" class="hover:text-blue-600">Home</a>
+            <a href="./menu.html" class="hover:text-blue-600">Menu</a>
+            <a href="./cart.html" class="hover:text-blue-600">Cart</a>
+            <a href="./about.html" class="hover:text-blue-600">About</a>
+            <a href="./contact.html" class="hover:text-blue-600">Contact</a>
+          </div>
+          <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Open menu">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+      <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white/90">
+        <a href="./index.html" class="block px-4 py-2">Home</a>
+        <a href="./menu.html" class="block px-4 py-2">Menu</a>
+        <a href="./cart.html" class="block px-4 py-2">Cart</a>
+        <a href="./about.html" class="block px-4 py-2">About</a>
+        <a href="./contact.html" class="block px-4 py-2">Contact</a>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+      <h1 class="text-3xl font-semibold mb-6" style="font-family: 'Playfair Display', serif;">Checkout</h1>
+      <div id="summary" class="bg-white/60 backdrop-blur-md rounded-xl p-6 shadow mb-6"></div>
+      <div id="paypal-button-container"></div>
+      <div class="mt-4">
+        <a href="./cart.html" class="text-blue-600 hover:underline">Back to Cart</a>
+      </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-6 mt-6">
+      <div class="container mx-auto px-4 text-sm">&copy; 2025 Niyantri Care</div>
+    </footer>
+  </div>
+
+  <!-- PayPal SDK (Sandbox) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
+  <script>
+    function renderSummary() {
+      const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+      const summary = document.getElementById('summary');
+      if (!summary) return;
+      if (cart.length === 0) {
+        summary.innerHTML = '<p class="text-gray-700">Your cart is empty.</p>';
+        return;
+      }
+      let total = 0;
+      let html = '<h2 class="text-xl font-semibold mb-2">Order Summary</h2><ul class="space-y-1">';
+      cart.forEach(it => { total += it.price; html += `<li class="flex justify-between"><span>${it.name}</span><span>$${it.price.toFixed(2)}</span></li>`; });
+      html += `</ul><div class="mt-2 font-semibold flex justify-between"><span>Total</span><span>$${total.toFixed(2)}</span></div>`;
+      summary.innerHTML = html;
+      return total;
+    }
+
+    function proceedAfterOrder() {
+      localStorage.removeItem('shoppingCart');
+      alert('Thank you! Your demo order has been completed.');
+      window.location.href = './index.html';
+    }
+
+    // Page init
+    window.addEventListener('load', () => {
+      const page = document.getElementById('page');
+      if (page) page.classList.add('opacity-100');
+      renderSummary();
+
+      // Render PayPal Buttons with the cart total
+      const cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+      const total = renderSummary() || 0;
+      paypalButtons(total);
+
+      // Mobile menu toggle
+      const btn = document.getElementById('mobile-menu-button');
+      const menu = document.getElementById('mobile-menu');
+      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+    });
+
+    function paypalButtons(total) {
+      if (typeof paypal === 'undefined') return;
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{ amount: { value: total.toFixed(2) } }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            // Demo success
+            proceedAfterOrder();
+          });
+        }
+      }).render('#paypal-button-container');
+    }
+  </script>
+</body>
+</html>
