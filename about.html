@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Niyantri Care - About</title>
+  <meta name="description" content="Learn about Niyantri Care and our mission to provide compassionate dog care in Hyderabad, India." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-yellow-50 text-gray-900">
+  <div id="page" class="min-h-screen opacity-0 transition-opacity duration-700">
+    <!-- Nav -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+      <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <a href="./index.html" class="flex items-center space-x-2">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Niyantri Care Logo" class="text-blue-600"><path d="M4 13c0-4 4-7 8-7s8 3 8 7v4H4v-4z" fill="currentColor"/><circle cx="12" cy="12" r="3" fill="white"/></svg>
+            <span class="font-semibold text-xl">Niyantri Care</span>
+          </a>
+          <div class="hidden md:flex space-x-6 text-sm">
+            <a href="./index.html" class="hover:text-blue-600">Home</a>
+            <a href="./menu.html" class="hover:text-blue-600">Menu</a>
+            <a href="./cart.html" class="hover:text-blue-600">Cart</a>
+            <a href="./about.html" class="hover:text-blue-600">About</a>
+            <a href="./contact.html" class="hover:text-blue-600">Contact</a>
+          </div>
+          <button id="mobile-menu-button" class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Open menu">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+      <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 bg-white/90">
+        <a href="./index.html" class="block px-4 py-2">Home</a>
+        <a href="./menu.html" class="block px-4 py-2">Menu</a>
+        <a href="./cart.html" class="block px-4 py-2">Cart</a>
+        <a href="./about.html" class="block px-4 py-2">About</a>
+        <a href="./contact.html" class="block px-4 py-2">Contact</a>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-14">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <section>
+          <h1 class="text-3xl font-semibold mb-4" style="font-family: 'Playfair Display', serif;">Our Mission</h1>
+          <p class="text-gray-700">Niyantri Care was founded with a simple belief: dogs deserve compassionate, professional care in a warm and safe environment. Based in Hyderabad, we bring together experienced handlers, grooming specialists, and veterinary partnerships to keep your four-legged family members happy and healthy.</p>
+        </section>
+        <section class="bg-white/60 backdrop-blur-md rounded-xl p-5 shadow">
+          <h2 class="text-xl font-semibold mb-2">Meet the Team</h2>
+          <ul class="text-sm text-gray-700 space-y-2">
+            <li>Dr. Ananya Rao — Vet Partner</li>
+            <li>Ravi Kumar — Lead Groomer</li>
+            <li>Priya Sharma — Customer Care</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-6 mt-6">
+      <div class="container mx-auto px-4 text-sm">&copy; 2025 Niyantri Care</div>
+    </footer>
+  </div>
+
+  <script>
+    window.addEventListener('load', () => {
+      const p = document.getElementById('page');
+      if (p) p.classList.add('opacity-100');
+    });
+    // Mobile menu toggle
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
